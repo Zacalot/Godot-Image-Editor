@@ -1,0 +1,24 @@
+[gd_scene format=1]
+
+[node name="canvas" type="Viewport"]
+
+rect = Rect2( 0, 0, 64, 64 )
+own_world = false
+world = null
+transparent_bg = true
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 3
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = false
+gui/disable_input = false
+
+[node name="image" type="Sprite" parent="."]
+
+centered = false
+
+

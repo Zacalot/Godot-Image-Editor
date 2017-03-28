@@ -1,0 +1,93 @@
+[gd_scene load_steps=6 format=1]
+
+[ext_resource path="res://addons/imgeditor/canvas.gd" type="Script" id=1]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = { "fragment":"", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
+
+[sub_resource type="CanvasItemMaterial" id=2]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+
+[sub_resource type="CanvasItemShader" id=3]
+
+_code = { "fragment":"uniform texture eraseMap;\nvec4 eraseMapTex = tex(eraseMap,UV);\nCOLOR.a *= min(1,ceil(eraseMapTex.r+eraseMapTex.g+eraseMapTex.b));", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
+
+[sub_resource type="CanvasItemMaterial" id=4]
+
+shader/shader = SubResource( 3 )
+shader/shading_mode = 0
+
+[node name="output" type="Sprite"]
+
+material/material = SubResource( 2 )
+centered = false
+script/script = ExtResource( 1 )
+
+[node name="canvas" type="Viewport" parent="."]
+
+rect = Rect2( 0, 0, 64, 64 )
+own_world = false
+world = null
+transparent_bg = true
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 3
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = false
+gui/disable_input = false
+
+[node name="surfaceCombiner" type="Sprite" parent="canvas"]
+
+material/material = SubResource( 4 )
+centered = false
+
+[node name="sprite" type="Viewport" parent="canvas"]
+
+rect = Rect2( 0, 0, 64, 64 )
+own_world = false
+world = null
+transparent_bg = true
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 3
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = false
+gui/disable_input = false
+
+[node name="image" type="Sprite" parent="canvas/sprite"]
+
+centered = false
+
+[node name="eraseMap" type="Viewport" parent="canvas"]
+
+rect = Rect2( 0, 0, 64, 64 )
+own_world = false
+world = null
+transparent_bg = false
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 3
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = false
+gui/disable_input = false
+
+[node name="image" type="Sprite" parent="canvas/eraseMap"]
+
+centered = false
+
+

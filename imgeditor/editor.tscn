@@ -1,0 +1,786 @@
+[gd_scene load_steps=10 format=1]
+
+[ext_resource path="res://addons/imgeditor/editor.gd" type="Script" id=1]
+[ext_resource path="res://addons/imgeditor/background.gd" type="Script" id=2]
+[ext_resource path="res://addons/imgeditor/drawgrid.gd" type="Script" id=3]
+[ext_resource path="res://addons/imgeditor/previewPaint.gd" type="Script" id=4]
+[ext_resource path="res://addons/imgeditor/images/pencil.png" type="Texture" id=5]
+[ext_resource path="res://addons/imgeditor/images/bucket.png" type="Texture" id=6]
+[ext_resource path="res://addons/imgeditor/images/select.png" type="Texture" id=7]
+
+[sub_resource type="CanvasItemShader" id=1]
+
+_code = { "fragment":"", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
+
+[sub_resource type="CanvasItemMaterial" id=2]
+
+shader/shader = SubResource( 1 )
+shader/shading_mode = 0
+
+[node name="Image Editor" type="Control"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 252.0
+margin/top = 69.0
+margin/right = 1016.0
+margin/bottom = 529.0
+script/script = ExtResource( 1 )
+__meta__ = { "_edit_lock_":true }
+
+[node name="viewport" type="Viewport" parent="."]
+
+rect = Rect2( 0, 0, 1005, 850 )
+own_world = false
+world = null
+transparent_bg = false
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 2
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = false
+gui/disable_input = false
+
+[node name="main" type="Node2D" parent="viewport"]
+
+visibility/behind_parent = true
+script/script = ExtResource( 2 )
+
+[node name="canvasDisplay" type="Sprite" parent="viewport/main"]
+
+material/material = SubResource( 2 )
+
+[node name="grid" type="Node2D" parent="viewport/main/canvasDisplay"]
+
+visibility/visible = false
+script/script = ExtResource( 3 )
+
+[node name="canvasOutput" type="Viewport" parent="viewport"]
+
+rect = Rect2( 0, 0, 64, 64 )
+own_world = false
+world = null
+transparent_bg = true
+render_target/enabled = true
+render_target/v_flip = false
+render_target/clear_on_new_frame = true
+render_target/filter = false
+render_target/gen_mipmaps = false
+render_target/update_mode = 3
+audio_listener/enable_2d = false
+audio_listener/enable_3d = false
+physics/object_picking = false
+gui/disable_input = false
+
+[node name="previewPaint" type="Node2D" parent="viewport/canvasOutput"]
+
+z/z = 10
+script/script = ExtResource( 4 )
+
+[node name="viewDisplay" type="Sprite" parent="."]
+
+transform/pos = Vector2( 235, 175 )
+
+[node name="toolsPanel" type="Panel" parent="."]
+
+visibility/behind_parent = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1083.0
+margin/top = 25.0
+margin/right = 1375.0
+margin/bottom = 875.0
+
+[node name="colorDisplay" type="Node2D" parent="toolsPanel"]
+
+transform/pos = Vector2( 215.52, 467.429 )
+
+[node name="imageInfo" type="GridContainer" parent="toolsPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 3.0
+margin/top = 655.0
+margin/right = 258.0
+margin/bottom = 838.0
+custom_constants/vseparation = 20
+columns = 1
+
+[node name="size" type="Label" parent="toolsPanel/imageInfo"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 47.0
+margin/bottom = 14.0
+text = "Size:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="position" type="Label" parent="toolsPanel/imageInfo"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 34.0
+margin/right = 47.0
+margin/bottom = 48.0
+text = "Mouse:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="zoom" type="Label" parent="toolsPanel/imageInfo"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 68.0
+margin/right = 47.0
+margin/bottom = 82.0
+text = "Zoom:"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="colorPicker" type="ColorPicker" parent="toolsPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 0.0
+margin/right = 290.0
+margin/bottom = 441.0
+alignment = 0
+
+[node name="btn_tool_pencil" type="Button" parent="toolsPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 10.0
+margin/top = 480.0
+margin/right = 74.0
+margin/bottom = 536.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+flat = false
+
+[node name="icon" type="Sprite" parent="toolsPanel/btn_tool_pencil"]
+
+transform/pos = Vector2( 32, 28 )
+transform/scale = Vector2( 2, 2 )
+texture = ExtResource( 5 )
+
+[node name="btn_tool_bucket" type="Button" parent="toolsPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 100.0
+margin/top = 480.0
+margin/right = 164.0
+margin/bottom = 536.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+flat = false
+
+[node name="icon" type="Sprite" parent="toolsPanel/btn_tool_bucket"]
+
+transform/pos = Vector2( 32, 28 )
+transform/scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+
+[node name="btn_tool_select" type="Button" parent="toolsPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 10.0
+margin/top = 565.0
+margin/right = 74.0
+margin/bottom = 621.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+flat = false
+
+[node name="icon" type="Sprite" parent="toolsPanel/btn_tool_select"]
+
+transform/pos = Vector2( 32, 28 )
+transform/scale = Vector2( 2, 2 )
+texture = ExtResource( 7 )
+
+[node name="toolbar" type="Panel" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 4.0
+margin/top = -6.0
+margin/right = 1375.0
+margin/bottom = 24.0
+__meta__ = { "_edit_lock_":true }
+
+[node name="btn_menu_save" type="Button" parent="toolbar"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 3.0
+margin/top = 5.0
+margin/right = 85.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "File"
+flat = false
+clip_text = true
+
+[node name="menu" type="PopupMenu" parent="toolbar/btn_menu_save"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -3.0
+margin/top = 17.0
+margin/right = 85.0
+margin/bottom = 95.0
+popup/exclusive = false
+items = [ "New", null, false, false, false, 0, 0, null, "", false, "Open", null, false, false, false, -1, 0, null, "", false, "Save", null, false, false, false, -1, 0, null, "", false, "Save As", null, false, false, false, -1, 0, null, "", false, "", null, false, false, false, -1, 0, null, "", true, "Reload", null, false, false, false, -1, 0, null, "", false ]
+
+[node name="btn_menu_edit" type="Button" parent="toolbar"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 93.0
+margin/top = 5.0
+margin/right = 175.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "Edit"
+flat = false
+clip_text = true
+
+[node name="menu" type="PopupMenu" parent="toolbar/btn_menu_edit"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -3.0
+margin/top = 17.0
+margin/right = 85.0
+margin/bottom = 69.0
+popup/exclusive = false
+items = [ "Undo", null, false, false, false, -1, 0, null, "", false, "Redo", null, false, false, false, -1, 0, null, "", false ]
+
+[node name="btn_menu_view" type="Button" parent="toolbar"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 183.0
+margin/top = 5.0
+margin/right = 265.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "View"
+flat = false
+clip_text = true
+
+[node name="menu" type="PopupMenu" parent="toolbar/btn_menu_view"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -3.0
+margin/top = 17.0
+margin/right = 85.0
+margin/bottom = 69.0
+popup/exclusive = false
+items = [ "Grid", null, true, true, false, 0, 0, null, "", false, "Set BG", null, false, false, false, 1, 0, null, "", false ]
+
+[node name="input_grid" type="LineEdit" parent="toolbar"]
+
+editor/display_folded = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 336.0
+margin/top = 2.0
+margin/right = 394.0
+margin/bottom = 26.0
+text = "1"
+placeholder/alpha = 0.6
+align = 1
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="label" type="Label" parent="toolbar/input_grid"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -64.0
+margin/top = 6.0
+margin/right = -3.0
+margin/bottom = 20.0
+text = "Grid Size:"
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="slider_size" type="HSlider" parent="toolbar"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 432.0
+margin/top = 7.0
+margin/right = 564.0
+margin/bottom = 23.0
+range/min = 0.0
+range/max = 100.0
+range/step = 1.0
+range/page = 0.0
+range/value = 1.0
+range/exp_edit = false
+range/rounded = true
+tick_count = 0
+ticks_on_borders = true
+focus_mode = 0
+
+[node name="display" type="Label" parent="toolbar/slider_size"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 134.0
+margin/top = 2.0
+margin/right = 174.0
+margin/bottom = 16.0
+text = "1"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="label" type="Label" parent="toolbar/slider_size"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -28.0
+margin/top = 1.0
+margin/right = 12.0
+margin/bottom = 15.0
+text = "Size"
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="btn_file_shader" type="Button" parent="toolbar"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1106.0
+margin/top = 5.0
+margin/right = 1188.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Shader"
+flat = false
+clip_text = true
+
+[node name="btn_menu_audio" type="Button" parent="toolbar"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1196.0
+margin/top = 5.0
+margin/right = 1278.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "Audio"
+flat = false
+clip_text = true
+
+[node name="menu" type="PopupMenu" parent="toolbar/btn_menu_audio"]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -3.0
+margin/top = 17.0
+margin/right = 85.0
+margin/bottom = 69.0
+popup/exclusive = false
+items = [ "Listen", null, false, false, false, -1, 0, null, "", false, "Export", null, false, false, false, -1, 0, null, "", false ]
+
+[node name="btn_menu_help" type="Button" parent="toolbar"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 1286.0
+margin/top = 5.0
+margin/right = 1368.0
+margin/bottom = 25.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+text = "Help"
+flat = false
+clip_text = true
+
+[node name="file_save" type="FileDialog" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 49.0
+margin/top = 75.0
+margin/right = 813.0
+margin/bottom = 528.0
+popup/exclusive = false
+window/title = "Save a File"
+dialog/hide_on_ok = false
+mode = 4
+access = 0
+filters = StringArray( "*.png" )
+show_hidden_files = false
+
+[node name="file_save_audio" type="FileDialog" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 49.0
+margin/top = 75.0
+margin/right = 813.0
+margin/bottom = 528.0
+popup/exclusive = false
+window/title = "Save a File"
+dialog/hide_on_ok = false
+mode = 4
+access = 0
+filters = StringArray( "*.png" )
+show_hidden_files = false
+
+[node name="file_load" type="FileDialog" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 49.0
+margin/top = 75.0
+margin/right = 813.0
+margin/bottom = 528.0
+popup/exclusive = false
+window/title = "Open a File"
+dialog/hide_on_ok = false
+mode = 0
+access = 0
+filters = StringArray( "*.png" )
+show_hidden_files = false
+
+[node name="win_new" type="WindowDialog" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -540.0
+margin/top = -530.0
+margin/right = -270.0
+margin/bottom = -449.0
+popup/exclusive = false
+window/title = "New Image"
+
+[node name="btn_create" type="Button" parent="win_new"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 95.0
+margin/top = 50.0
+margin/right = 175.0
+margin/bottom = 70.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Create"
+flat = false
+
+[node name="input_width" type="LineEdit" parent="win_new"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 35.0
+margin/top = 6.0
+margin/right = 93.0
+margin/bottom = 30.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="Label" type="Label" parent="win_new/input_width"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 9.0
+margin/top = 27.0
+margin/right = 51.0
+margin/bottom = 41.0
+text = "Width"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="input_height" type="LineEdit" parent="win_new"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 177.0
+margin/top = 6.0
+margin/right = 235.0
+margin/bottom = 30.0
+placeholder/alpha = 0.6
+focus_mode = 2
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="Label" type="Label" parent="win_new/input_height"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 8.0
+margin/top = 28.0
+margin/right = 54.0
+margin/bottom = 42.0
+text = "Height"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="win_help" type="WindowDialog" parent="."]
+
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -683.0
+margin/top = -386.0
+margin/right = -271.0
+margin/bottom = -170.0
+popup/exclusive = false
+window/title = "Help"
+
+[node name="label_help" type="RichTextLabel" parent="win_help"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 4.0
+margin/top = 1.0
+margin/right = 410.0
+margin/bottom = 211.0
+bbcode/enabled = false
+bbcode/bbcode = "Left click - Draw.\nRight click - Erase.\nX - Swap color.\nShift+Drag - Draw line.\nCONTROL+Drag - Draw circle.\nAlt+click - Pick color from image.\nCNTRL+Scroll - Change pencil size.\n\nOptions -\nG - Grid\n\nTools - \nD - Pencil\nF - Bucket"
+visible_characters = -1
+
+[node name="win_shader_edit" type="WindowDialog" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -188.0
+margin/top = -703.0
+margin/right = 928.0
+margin/bottom = -118.0
+popup/exclusive = false
+window/title = "Set Code"
+
+[node name="vertexInput" type="TextEdit" parent="win_shader_edit"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 28.0
+margin/right = 1114.0
+margin/bottom = 582.0
+syntax_highlighting = false
+show_line_numbers = true
+highlight_all_occurrences = true
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="fragmentInput" type="TextEdit" parent="win_shader_edit"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 2.0
+margin/top = 28.0
+margin/right = 1114.0
+margin/bottom = 582.0
+syntax_highlighting = false
+show_line_numbers = true
+highlight_all_occurrences = true
+caret/block_caret = false
+caret/caret_blink = false
+caret/caret_blink_speed = 0.65
+
+[node name="tabs" type="Tabs" parent="win_shader_edit"]
+
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 250.0
+margin/top = 292.5
+margin/right = -250.0
+margin/bottom = 267.5
+
+[connection signal="color_changed" from="toolsPanel/colorPicker" to="." method="SetColor"]
+
+[connection signal="pressed" from="toolsPanel/btn_tool_pencil" to="." method="PressToolButton" binds= [ 1 ]]
+
+[connection signal="pressed" from="toolsPanel/btn_tool_bucket" to="." method="PressToolButton" binds= [ 2 ]]
+
+[connection signal="pressed" from="toolsPanel/btn_tool_select" to="." method="PressToolButton" binds= [ 3 ]]
+
+[connection signal="pressed" from="toolbar/btn_menu_save" to="." method="open_btn_menu" binds= [ "btn_menu_save" ]]
+
+[connection signal="item_pressed" from="toolbar/btn_menu_save/menu" to="." method="menu_item_pressed" binds= [ "save" ]]
+
+[connection signal="pressed" from="toolbar/btn_menu_edit" to="." method="open_btn_menu" binds= [ "btn_menu_edit" ]]
+
+[connection signal="item_pressed" from="toolbar/btn_menu_edit/menu" to="." method="menu_item_pressed" binds= [ "edit" ]]
+
+[connection signal="pressed" from="toolbar/btn_menu_view" to="." method="open_btn_menu" binds= [ "btn_menu_view" ]]
+
+[connection signal="item_pressed" from="toolbar/btn_menu_view/menu" to="." method="menu_item_pressed" binds= [ "view" ]]
+
+[connection signal="text_changed" from="toolbar/input_grid" to="viewport/main/canvasDisplay/grid" method="SetSize"]
+
+[connection signal="value_changed" from="toolbar/slider_size" to="." method="SetDrawSize"]
+
+[connection signal="pressed" from="toolbar/btn_file_shader" to="." method="OpenShaderEditor"]
+
+[connection signal="pressed" from="toolbar/btn_menu_audio" to="." method="open_btn_menu" binds= [ "btn_menu_audio" ]]
+
+[connection signal="item_pressed" from="toolbar/btn_menu_audio/menu" to="." method="menu_item_pressed" binds= [ "audio" ]]
+
+[connection signal="pressed" from="toolbar/btn_menu_help" to="win_help" method="popup_centered"]
+
+[connection signal="file_selected" from="file_save" to="." method="SaveImage"]
+
+[connection signal="file_selected" from="file_save_audio" to="." method="SaveAudio"]
+
+[connection signal="file_selected" from="file_load" to="." method="LoadImage"]
+
+[connection signal="pressed" from="win_new/btn_create" to="." method="btn_newimg_create_pressed"]
+
+[connection signal="text_entered" from="win_new/input_width" to="." method="btn_newimg_create_pressed"]
+
+[connection signal="text_entered" from="win_new/input_height" to="." method="btn_newimg_create_pressed"]
+
+[connection signal="popup_hide" from="win_shader_edit" to="." method="CompileShaderCode"]
+
+[connection signal="tab_changed" from="win_shader_edit/tabs" to="." method="win_shader_tab_changed"]
+
+
