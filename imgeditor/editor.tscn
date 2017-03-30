@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=1]
+[gd_scene load_steps=11 format=1]
 
 [ext_resource path="res://addons/imgeditor/editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/imgeditor/background.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/imgeditor/images/pencil.png" type="Texture" id=5]
 [ext_resource path="res://addons/imgeditor/images/bucket.png" type="Texture" id=6]
 [ext_resource path="res://addons/imgeditor/images/select.png" type="Texture" id=7]
+[ext_resource path="res://addons/imgeditor/images/rectangle.png" type="Texture" id=8]
 
 [sub_resource type="CanvasItemShader" id=1]
 
@@ -235,6 +236,27 @@ flat = false
 transform/pos = Vector2( 32, 28 )
 transform/scale = Vector2( 2, 2 )
 texture = ExtResource( 7 )
+
+[node name="btn_tool_rectangle" type="Button" parent="toolsPanel"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 100.0
+margin/top = 565.0
+margin/right = 164.0
+margin/bottom = 621.0
+toggle_mode = false
+enabled_focus_mode = 0
+shortcut = null
+flat = false
+
+[node name="icon" type="Sprite" parent="toolsPanel/btn_tool_rectangle"]
+
+transform/pos = Vector2( 32, 28 )
+transform/scale = Vector2( 2, 2 )
+texture = ExtResource( 8 )
 
 [node name="toolbar" type="Panel" parent="."]
 
@@ -668,7 +690,7 @@ margin/top = 1.0
 margin/right = 410.0
 margin/bottom = 211.0
 bbcode/enabled = false
-bbcode/bbcode = "Left click - Draw.\nRight click - Erase.\nX - Swap color.\nShift+Drag - Draw line.\nCONTROL+Drag - Draw circle.\nAlt+click - Pick color from image.\nCNTRL+Scroll - Change pencil size.\n\nOptions -\nG - Grid\n\nTools - \nD - Pencil\nF - Bucket"
+bbcode/bbcode = "Left click - Draw.\nRight click - Erase.\nX - Swap color.\nShift+Drag - Draw line.\nCONTROL+Drag - Draw circle.\nAlt+click - Pick color from image.\nCNTRL+Scroll - Change pencil size.\n\nOptions -\nG - Grid\n\nTools - \nD - Pencil\nF - Bucket\nR - Rectangle"
 visible_characters = -1
 
 [node name="win_shader_edit" type="WindowDialog" parent="."]
@@ -742,6 +764,8 @@ margin/bottom = 267.5
 [connection signal="pressed" from="toolsPanel/btn_tool_bucket" to="." method="PressToolButton" binds= [ 2 ]]
 
 [connection signal="pressed" from="toolsPanel/btn_tool_select" to="." method="PressToolButton" binds= [ 3 ]]
+
+[connection signal="pressed" from="toolsPanel/btn_tool_rectangle" to="." method="PressToolButton" binds= [ 4 ]]
 
 [connection signal="pressed" from="toolbar/btn_menu_save" to="." method="open_btn_menu" binds= [ "btn_menu_save" ]]
 

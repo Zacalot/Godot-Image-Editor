@@ -80,6 +80,7 @@ var zoomLevel 		= Vector2()
 var erasing = false
 var lineStart = false
 var circleStart = false
+var rectangleStart = false
 var freeDraw = false
 var freeDrawUndoGroup
 var freeDrawPlaced
@@ -124,19 +125,22 @@ const CAPTUREMODES = {
 const TOOLS = {
 	pencil = 1,
 	bucket = 2,
-	select = 3
+	select = 3,
+	rectangle = 4
 }
 
 const toolButtons = {
 	TOOLS.pencil : "btn_tool_pencil",
 	TOOLS.bucket : "btn_tool_bucket",
-	TOOLS.select : "btn_tool_select"
+	TOOLS.select : "btn_tool_select",
+	TOOLS.rectangle : "btn_tool_rectangle"
 }
 
 const toolKeys = {
 	TOOLS.pencil : KEY_D,
 	TOOLS.bucket : KEY_F,
-	TOOLS.select : KEY_S
+	TOOLS.select : KEY_S,
+	TOOLS.rectangle : KEY_R
 }
 
 const toolButtonScaleStart = Vector2(1,1)
@@ -151,7 +155,8 @@ const ACTIONS = {
 	drawingFree = 1,
 	drawingLine = 2,
 	drawingCircle = 3,
-	selecting = 4
+	selecting = 4,
+	drawingRectangle = 5
 }
 
 #Undo control.
@@ -350,6 +355,8 @@ func _input(ev):
 						selectionEnd = clickPos
 					if rightClick == true:
 						selectionActive = false
+				elif curTool == TOOLS.rectangle:
+					rectangleStart = clickPos
 				else:
 					if curAction != ACTIONS.drawingLine: #If not drawing line
 						if Input.is_key_pressed(KEY_SHIFT): #Begin drawing line if shift is held
@@ -368,9 +375,11 @@ func _input(ev):
 				if curAction == ACTIONS.selecting: #Stop selecting
 					selectingRect = false
 					selectionEnd = clickPos
-				elif curAction == ACTIONS.drawingLine: #If drawing a line, stop and apply line
+				elif curAction == ACTIONS.drawingLine:
 					ApplyAction(ImageID(),true,null,true)
 				elif curAction == ACTIONS.drawingCircle:
+					ApplyAction(ImageID(),true,null,true)
+				elif curAction == ACTIONS.drawingRectangle:
 					ApplyAction(ImageID(),true,null,true)
 				freeDraw = false #Stop drawing freely
 			handled = true
@@ -489,6 +498,14 @@ func ApplyAction(rid,userApplied=null,ignoreErasing=null,saveUndo=null):
 			CreateCommand(curEditingCanvas,self,"DrawCircle",args,["erasing","color","drawSize"],"UndoDraw").Execute()
 		if userApplied:
 			circleStart = false
+	elif action == ACTIONS.drawingRectangle:
+		var args = [rid,Rect2(rectangleStart,MousePos()-rectangleStart),ignoreErasing]
+		if saveUndo != true:
+			callv("DrawRect",args)
+		else:
+			CreateCommand(curEditingCanvas,self,"DrawRect",args,["erasing","color","drawSize"],"UndoDraw").Execute()
+		if userApplied:
+			rectangleStart = false
 	else:
 		if curTool == TOOLS.pencil:
 			var args = [rid,MousePos(),ignoreErasing]
@@ -703,6 +720,8 @@ func CurAction():
 	if selectionActive:
 		if selectingRect == true:
 			return ACTIONS.selecting
+	if typeof(rectangleStart) != TYPE_BOOL:
+		return ACTIONS.drawingRectangle
 	return ACTIONS.none
 
 #Loads an image.
